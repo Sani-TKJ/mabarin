@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mabarin — With Sann</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100e1c;
+    --panel:#1b1730;
+    --panel-2:#221d3c;
+    --border:#2f2952;
+    --lime:#c9ff52;
+    --pink:#ff4f93;
+    --text:#f1eefa;
+    --muted:#8f89ab;
+    --ticket:#faf7ff;
+    --ticket-ink:#1b1730;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 12% -10%, rgba(201,255,82,0.10), transparent 40%),
+      radial-gradient(circle at 90% 10%, rgba(255,79,147,0.10), transparent 45%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{font-family:'Chakra Petch', sans-serif; letter-spacing:0.01em;}
+  a{color:inherit;}
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+
+  /* Header */
+  header.site{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:26px 0 10px;
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Chakra Petch'; font-weight:700; font-size:20px;}
+  .logo .dot{width:10px;height:10px;border-radius:2px;background:var(--lime); box-shadow:0 0 12px rgba(201,255,82,0.8); transform:rotate(45deg);}
+  .eyebrow{
+    font-size:11px; letter-spacing:0.22em; color:var(--muted); font-weight:700;
+    text-transform:uppercase;
+  }
+
+  /* Hero */
+  .hero{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:40px;
+    padding:52px 0 60px; align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(34px,5vw,54px); line-height:1.05; margin:14px 0 18px; font-weight:700;
+  }
+  .hero h1 span{color:var(--lime);}
+  .hero p{color:var(--muted); font-size:16px; max-width:46ch; margin:0 0 8px;}
+
+  .radar{
+    background:var(--panel); border:1px solid var(--border); border-radius:18px;
+    padding:22px; position:relative; overflow:hidden;
+  }
+  .radar-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
+  .radar-head span{font-size:12px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;}
+  .pulse-row{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--lime); font-weight:600;}
+  .pulse-dots{display:flex; gap:4px;}
+  .pulse-dots i{
+    width:6px;height:6px;border-radius:50%;background:var(--lime); display:inline-block;
+    animation:pulse 1.2s ease-in-out infinite;
+  }
+  .pulse-dots i:nth-child(2){animation-delay:.15s;}
+  .pulse-dots i:nth-child(3){animation-delay:.3s;}
+  @keyframes pulse{0%,80%,100%{opacity:.25; transform:scale(.8);} 40%{opacity:1; transform:scale(1.15);}}
+  .lobby-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 0; border-top:1px dashed var(--border); font-size:14px; color:var(--text);
+  }
+  .lobby-row:first-of-type{border-top:none;}
+  .lobby-row small{color:var(--muted); font-weight:500;}
+  .lobby-game{display:flex; align-items:center; gap:9px;}
+  .lobby-logo{width:20px; height:20px; object-fit:contain; border-radius:4px; flex-shrink:0;}
+  .badge{font-size:11px; background:rgba(201,255,82,0.14); color:var(--lime); padding:3px 8px; border-radius:20px; font-weight:700;}
+
+  @media (prefers-reduced-motion:reduce){ .pulse-dots i{animation:none;} }
+
+  /* Main grid */
+  main{padding-bottom:80px;}
+  .grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start;
+  }
+
+  .panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:20px; padding:28px;
+  }
+  .panel h2{font-size:22px; margin:0 0 4px;}
+  .panel .hint{color:var(--muted); font-size:13.5px; margin:0 0 22px;}
+
+  label{
+    display:block; font-size:12.5px; font-weight:700; letter-spacing:0.03em;
+    text-transform:uppercase; color:var(--muted); margin:20px 0 8px;
+  }
+  label:first-of-type{margin-top:0;}
+  .req{color:var(--pink);}
+
+  input[type=text], input[type=tel], input[type=number], textarea{
+    width:100%; background:var(--panel-2); border:1px solid var(--border); border-radius:12px;
+    padding:13px 14px; color:var(--text); font-family:inherit; font-size:14.5px; outline:none;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  input::placeholder, textarea::placeholder{color:#5f5a7d;}
+  input:focus, textarea:focus{border-color:var(--lime); box-shadow:0 0 0 3px rgba(201,255,82,0.15);}
+  textarea{resize:vertical; min-height:80px;}
+
+  .chips{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    border:1px solid var(--border); background:var(--panel-2); color:var(--text);
+    padding:10px 16px; border-radius:11px; font-size:14px; font-weight:600; cursor:pointer;
+    display:flex; align-items:center; gap:8px; transition:all .15s;
+  }
+  .chip:hover{border-color:#4a4275;}
+  .chip.active{background:var(--lime); color:#12130c; border-color:var(--lime);}
+  .chip .ico{font-size:15px;}
+  .chip-logo{
+    width:20px; height:20px; object-fit:contain; border-radius:4px;
+    flex-shrink:0;
+  }
+
+  #customGameWrap{display:none; margin-top:14px;}
+
+  .chips.field-error{
+    padding:10px; margin:-10px; border-radius:14px;
+    box-shadow:0 0 0 1.5px var(--pink);
+    animation:shake .35s ease;
+  }
+  input.field-error{
+    border-color:var(--pink) !important;
+    box-shadow:0 0 0 3px rgba(255,79,147,0.16) !important;
+    animation:shake .35s ease;
+  }
+  .error-msg{
+    color:var(--pink); font-size:12.5px; font-weight:600; margin-top:8px;
+    display:none; align-items:center; gap:6px;
+  }
+  .error-msg.show{display:flex;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-5px);}
+    40%{transform:translateX(5px);}
+    60%{transform:translateX(-4px);}
+    80%{transform:translateX(4px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .chips.field-error, input.field-error{animation:none;}
+  }
+
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+
+  .send-btn{
+    width:100%; margin-top:26px; border:none; cursor:pointer;
+    background:linear-gradient(90deg, var(--lime), #a6e63a);
+    color:#12130c; font-family:'Chakra Petch'; font-weight:700; font-size:16px;
+    padding:16px; border-radius:13px; display:flex; align-items:center; justify-content:center; gap:10px;
+    transition:transform .12s, box-shadow .12s;
+    box-shadow:0 8px 24px rgba(201,255,82,0.18);
+  }
+  .send-btn:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(201,255,82,0.28);}
+  .send-btn:active{transform:translateY(0);}
+  .send-btn .wa-logo{
+    width:22px; height:22px; object-fit:contain; flex-shrink:0;
+  }
+  .send-note{text-align:center; font-size:12px; color:var(--muted); margin-top:10px;}
+
+  /* Ticket */
+  .ticket-outer{position:sticky; top:24px;}
+  .ticket{
+    background:var(--ticket); color:var(--ticket-ink); border-radius:20px;
+    position:relative; box-shadow:0 24px 50px -12px rgba(0,0,0,0.55);
+    animation:ticketIn .5s ease both;
+  }
+  @keyframes ticketIn{from{opacity:0; transform:translateY(14px) rotate(-1deg);} to{opacity:1; transform:none;}}
+  .ticket-top{padding:24px 26px 18px;}
+  .ticket-brand{display:flex; justify-content:space-between; align-items:flex-start;}
+  .ticket-brand .tag{font-family:'Chakra Petch'; font-weight:700; font-size:12px; letter-spacing:0.12em; color:#7a51a3;}
+  .ticket-brand .no{font-size:11px; color:#9a94b3; font-weight:600;}
+  .ticket-game{
+    font-family:'Chakra Petch'; font-weight:700; font-size:26px; margin:10px 0 2px;
+    word-break:break-word;
+  }
+  .ticket-from{font-size:13px; color:#726c8f;}
+
+  .perforation{
+    position:relative; height:0; border-top:2px dashed #d8d2ef; margin:6px 26px;
+  }
+  .perforation::before, .perforation::after{
+    content:""; position:absolute; top:-11px; width:22px; height:22px; border-radius:50%;
+    background:var(--bg);
+  }
+  .perforation::before{left:-37px;}
+  .perforation::after{right:-37px;}
+
+  .ticket-bottom{padding:18px 26px 24px; display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .ticket-field .k{font-size:10.5px; text-transform:uppercase; letter-spacing:0.1em; color:#9a94b3; font-weight:700; margin-bottom:4px;}
+  .ticket-field .v{font-size:14.5px; font-weight:600; color:var(--ticket-ink); word-break:break-word;}
+  .ticket-msg{grid-column:1 / -1; font-size:13.5px; color:#4a4468; background:#f0ebff; padding:12px 14px; border-radius:10px; line-height:1.5;}
+
+  .barcode{
+    height:38px; margin:0 26px 22px; border-radius:6px;
+    background:repeating-linear-gradient(90deg,#1b1730 0 2px, transparent 2px 5px, #1b1730 5px 6px, transparent 6px 10px, #1b1730 10px 13px, transparent 13px 15px);
+    opacity:0.85;
+  }
+
+  footer{padding:30px 0 50px; text-align:center; color:var(--muted); font-size:13px;}
+
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;}
+    .grid{grid-template-columns:1fr;}
+    .row2{grid-template-columns:1fr;}
+    .ticket-outer{position:static;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="site">
+    <div class="logo"><span class="dot"></span>Mabarin</div>
+    <span class="eyebrow">by sann</span>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Ngajak Mabar, Sama sann</span>
+      <h1>Ngajak Mabar Gausah Ribet, <span>Auto Gaskeun.</span></h1>
+      <p>Isi game, jam war, sama chat ngajaknya sekali doang. Tiketnya auto jadi kece, tinggal cus kirim ke WhatsApp.</p>
+    </div>
+    <div class="radar">
+      <div class="radar-head">
+        <span>Status Lobby</span>
+        <div class="pulse-row"><div class="pulse-dots"><i></i><i></i><i></i></div> Nyari squad</div>
+      </div>
+      <div class="lobby-row">
+        <span class="lobby-game"><img src="https://kappa.lol/UqzHFt" alt="" class="lobby-logo" onerror="this.style.display='none'">Roblox</span>
+        <small></small>
+      </div>
+      <div class="lobby-row">
+        <span class="lobby-game"><img src="https://kappa.lol/HZRzim" alt="" class="lobby-logo" onerror="this.style.display='none'">Free Fire</span>
+        <small></small>
+      </div>
+      <div class="lobby-row">
+        <span class="lobby-game"><img src="https://kappa.lol/YvTmNm" alt="" class="lobby-logo" onerror="this.style.display='none'">Mobile Legends</span>
+        <span class="badge"></span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="grid">
+
+      <!-- FORM -->
+      <div class="panel">
+        <h2>Isi Detail Mabar</h2>
+        <p class="hint">Semua kolom bakal masuk otomatis ke pesan WhatsApp.</p>
+
+        <label>Main apa nih?</label>
+        <div class="chips" id="gameChips">
+          <button type="button" class="chip" data-game="Roblox">
+            <img src="https://kappa.lol/UqzHFt" alt="" class="chip-logo" onerror="this.style.display='none'">Roblox
+          </button>
+          <button type="button" class="chip" data-game="Free Fire">
+            <img src="https://kappa.lol/HZRzim" alt="" class="chip-logo" onerror="this.style.display='none'">Free Fire
+          </button>
+          <button type="button" class="chip" data-game="Mobile Legends">
+            <img src="https://kappa.lol/YvTmNm" alt="" class="chip-logo" onerror="this.style.display='none'">Mobile Legends
+          </button>
+          <button type="button" class="chip" data-game="Lainnya"><span class="ico"></span>Game Lainnya</button>
+        </div>
+        <p class="error-msg" id="errGame">⚠️ Pilih atau isi nama game dulu ya</p>
+        <div id="customGameWrap">
+          <label style="margin-top:14px;">Nama game-nya apa?</label>
+          <input type="text" id="customGame" placeholder="Contoh: Valorant, PUBG Mobile, Minecraft...">
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Kapan mabarnya? <span class="req">*</span></label>
+            <input type="text" id="waktu" placeholder="Isi jam mabar">
+            <p class="error-msg" id="errWaktu">⚠️ Isi waktu mabarnya dulu</p>
+          </div>
+          <div>
+            <label>Butuh berapa slot?</label>
+            <input type="number" id="slot" min="0" placeholder="2">
+          </div>
+        </div>
+
+        <label>Nama kamu (opsional)</label>
+        <input type="text" id="nama" placeholder="Nama / nickname kamu">
+
+        <label>Pesan tambahan (opsional)</label>
+        <textarea id="pesan" placeholder="Ayo mabar sann,pengen di carry lu nih😆"></textarea>
+
+        <button class="send-btn" id="sendBtn" type="button">
+          <img src="https://kappa.lol/KXoTge" alt="" class="wa-logo" onerror="this.style.display='none'">Kirim ke WhatsApp
+        </button>
+        <p class="send-note"></p>
+      </div>
+
+      <!-- TICKET PREVIEW -->
+      <div class="ticket-outer">
+        <div class="ticket" id="ticket">
+          <div class="ticket-top">
+            <div class="ticket-brand">
+              <span class="tag">TIKET AJAKAN MABAR</span>
+              <span class="no" id="ticketNo">#000001</span>
+            </div>
+            <div class="ticket-game" id="pvGame">Pilih game dulu</div>
+            <div class="ticket-from" id="pvFrom">Dari: —</div>
+          </div>
+
+          <div class="perforation"></div>
+
+          <div class="ticket-bottom">
+            <div class="ticket-field">
+              <div class="k">Waktu</div>
+              <div class="v" id="pvWaktu">—</div>
+            </div>
+            <div class="ticket-field">
+              <div class="k">Slot dibutuhkan</div>
+              <div class="v" id="pvSlot">—</div>
+            </div>
+            <div class="ticket-msg" id="pvPesan">Pesan ajakan bakal muncul di sini setelah kamu isi form.</div>
+          </div>
+
+          <div class="barcode"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>© 2026 Mabarin by Sann</footer>
+</div>
+
+<script>
+  const chips = document.querySelectorAll('.chip');
+  const customWrap = document.getElementById('customGameWrap');
+  const customGame = document.getElementById('customGame');
+  let selectedGame = '';
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      document.getElementById('gameChips').classList.remove('field-error');
+      document.getElementById('errGame').classList.remove('show');
+      const val = chip.dataset.game;
+      if (val === 'Lainnya') {
+        customWrap.style.display = 'block';
+        selectedGame = customGame.value.trim();
+      } else {
+        customWrap.style.display = 'none';
+        selectedGame = val;
+      }
+      updateTicket();
+    });
+  });
+  customGame.addEventListener('input', () => {
+    selectedGame = customGame.value.trim();
+    updateTicket();
+  });
+
+  const nama = document.getElementById('nama');
+  const waktu = document.getElementById('waktu');
+  const slot = document.getElementById('slot');
+  const pesan = document.getElementById('pesan');
+  const TARGET_WA = '6281343229317';
+
+  waktu.addEventListener('input', () => {
+    waktu.classList.remove('field-error');
+    document.getElementById('errWaktu').classList.remove('show');
+  });
+  [nama, waktu, slot, pesan].forEach(el => el.addEventListener('input', updateTicket));
+
+  const ticketNo = document.getElementById('ticketNo');
+  ticketNo.textContent = '#' + String(Math.floor(Math.random()*90000)+10000);
+
+  function updateTicket(){
+    document.getElementById('pvGame').textContent = selectedGame || 'Pilih game dulu';
+    document.getElementById('pvFrom').textContent = 'Dari: ' + (nama.value.trim() || '—');
+    document.getElementById('pvWaktu').textContent = waktu.value.trim() || '—';
+    document.getElementById('pvSlot').textContent = slot.value.trim() ? slot.value.trim() + ' orang' : '—';
+    document.getElementById('pvPesan').textContent = pesan.value.trim() || 'Pesan ajakan bakal muncul di sini setelah kamu isi form.';
+  }
+
+  function buildMessage(){
+    const game = selectedGame || '(belum pilih game)';
+    const waktuVal = waktu.value.trim() || '(waktu belum diisi)';
+    const slotVal = slot.value.trim();
+    const namaVal = nama.value.trim();
+    const pesanVal = pesan.value.trim();
+
+    let msg = `🎮 *AJAKAN MABAR* 🎮\n\n`;
+    msg += `*Game:* ${game}\n`;
+    msg += `*Waktu:* ${waktuVal}\n`;
+    if (slotVal) msg += `*Butuh:* ${slotVal} orang lagi\n`;
+    if (namaVal) msg += `*Dari:* ${namaVal}\n`;
+    if (pesanVal) msg += `\n${pesanVal}\n`;
+    msg += `\nGaskeun, siapa mau join? 🔥`;
+    return msg;
+  }
+
+  document.getElementById('sendBtn').addEventListener('click', () => {
+    const gameChips = document.getElementById('gameChips');
+    const errGame = document.getElementById('errGame');
+    const errWaktu = document.getElementById('errWaktu');
+    let hasError = false;
+
+    if (!selectedGame){
+      gameChips.classList.add('field-error');
+      errGame.classList.add('show');
+      hasError = true;
+    } else {
+      gameChips.classList.remove('field-error');
+      errGame.classList.remove('show');
+    }
+
+    if (!waktu.value.trim()){
+      waktu.classList.add('field-error');
+      errWaktu.classList.add('show');
+      hasError = true;
+    } else {
+      waktu.classList.remove('field-error');
+      errWaktu.classList.remove('show');
+    }
+
+    if (hasError){
+      (selectedGame ? waktu : gameChips).scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+
+    const text = encodeURIComponent(buildMessage());
+    const url = `https://wa.me/${TARGET_WA}?text=${text}`;
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  updateTicket();
+</script>
+
+</body>
+</html>
